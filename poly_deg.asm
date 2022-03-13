@@ -1,6 +1,6 @@
+; todo: hide what shouldn't be global
 global mod
 global hash
-global mod_with_overhead
 
 mod:    ; calculates x % y
         push    rbp
@@ -37,3 +37,13 @@ hash:   ; calculates ((x % 0x3B9ACA07) % 0x3B9ACA09) % 0x3B9ACA15
         add     rsp, 0x10               ; clear stack
         pop     rbp                     ; destroy stack frame
         ret                             ; return with RAX
+
+polynomial_degree:
+        push    rbp
+        mov     rbp, rsp                ; create stack frame
+        sub     rsp, 0x18               ; get stack space for int ptr (8 bytes), size_t (8 bytes) + 8 bytes offset
+
+        add     rsp, 0x10               ; clear stack
+        pop     rbp                     ; destroy stack frame
+        ret                             ; return with RAX
+
