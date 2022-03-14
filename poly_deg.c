@@ -1,5 +1,6 @@
 #include "poly_deg.h"
 #include <stdbool.h>
+#include <stdlib.h>
 
 #define MOD1 (1000000000+7)
 #define MOD2 (1000000000+9)
@@ -10,28 +11,30 @@ static long hash(long x) {
 }
 
 int polynomial_degree(int const *y, size_t n) {
+    int result = -1;
+
     if (n == 0 || y == NULL) {
-        return -1;
+        return result;
     }
 
     bool all_zeros = true;
-    int result = -1;
-    size_t size = n;
-    long diffs[size];
+    long* diffs = malloc(n * sizeof(long));
+    size_t i;
 
-    for (size_t i = 0; i < n; i++) {
+    for (i = 0; i < n; i++) {
         diffs[i] = y[i];
-        all_zeros &= (diffs[i] == 0);
+        all_zeros &= !diffs[i];
     }
 
-    while (size > 0 && !all_zeros) {
+    while (n > 0 && !all_zeros) {
         result++;
-        size--;
+        n--;
         all_zeros = true;
-        for (size_t i = 0; i < size; i++) {
+        for (i = 0; i < n; i++) {
             diffs[i] = hash(diffs[i] - diffs[i + 1]);
-            all_zeros &= (diffs[i] == 0);
+            all_zeros &= !diffs[i];
         }
     }
+    free(diffs);
     return result;
 }
