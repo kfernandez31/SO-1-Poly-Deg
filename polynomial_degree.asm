@@ -1,9 +1,24 @@
+; further in this file, "bignum" will refer to the representation of an integer as an array
 global polynomial_degree
 extern malloc
 extern calloc
 extern free
 extern printf
 
+; performs subtraction of two bignums and stores the result in the first one
+sub_bignums:
+        mov     cl, 0x1                                 ; `all_zeros = true`
+.outer_loop:
+        xor     r8, r8                                  ; `i = 0`
+        xor     r9, r9                                  ; `bool carry = true`
+
+
+        inc     r8                                      ; `i++`
+        cmp     r8, rdx                                 ; `(i < bignum_len)?`
+        jb      .outer_loop                             ; loop again if yes
+
+
+; TODO: tu chyba jeszcze powinienem wyrównać RSP do 16tki
 polynomial_degree:
         push    rsi                                     ; save value of `n`
 ; legend to variables:
@@ -73,25 +88,35 @@ polynomial_degree:
 .loop_incr_res:
         inc     ecx                                     ; `result++`
         dec     rsi                                     ; `n--`
-        mov     dl, 0x1                                 ; `all_zeros = true`
         xor     r8, r8                                  ; `i = 0`
   ; inner loop of loop_incr_res - performs `n` subtractions
 .loop_sub_all:
+        push    rdi
+        push    rsi
+        push    rdx
+        push    rcx
         push    r8
-    ; inner loop of loop_sub_all - performs one subtraction
-.loop_sub:
-        ...
-    ; check loop_sub condition
-       inc     r8                                      ; `i++`
-       cmp     r8, r10                                 ; `(i < bignum_len)?`
-       jb      .loop_alloc_bignums                     ; loop again if yes
-    ; end of loop_sub
+        push    r9
+
+        mov     rdi, [r9+r8*8]                          ; RDI := `diffs[i]`
+        mov     rsi, [r9+r8*8+8]                        ; RSI := `diffs[i+1]`
+        mov     cl, dl                                  ; CL := `all_zeros`
+        mov     rdx, r10                                ; RDX := `bignum_len`
+        call    sub_bignums                             ; `sub_bignums(diffs[i], diffs[i+1], bignum_len, all_zeros)`
+        mov     dl, cl                                  ; this may have gotten updated in sub_bignums
+
+        pop     r9
+        pop     r8
+        pop     rcx
+        pop     rdx
+        pop     rsi
+        pop     rdi
   ; check loop_sub_all condition
         pop     r8
         inc     r8                                      ; `i++`
         cmp     r8, rsi                                 ; `(i < n)?`
         jb      .loop_alloc_bignums                     ; loop again if yes
-    ; end of loop_sub_all
+  ; end of loop_sub_all
 ; check loop_incr_res condition
        push     r12b
        push     r13b
