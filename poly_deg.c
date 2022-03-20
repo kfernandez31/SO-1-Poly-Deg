@@ -38,3 +38,53 @@ int polynomial_degree(int const *y, size_t n) {
     free(diffs);
     return result;
 }
+
+
+void sub(int *a, const int *b, size_t ncells, bool *all_zeros) {
+    flag FC = 0;
+    bool carry = false;
+    for (size_t i = 0; i < ncells; i++) {
+        size_t idx = ncells - i;
+        a[idx] -= (FC == 1);
+        carry = (FC == 1);
+        a[idx] - b[idx];
+        if (FC == 1) {
+            carry = true;
+        }
+
+        if (carry) {
+            a[idx] -= 1;
+        }
+        *all_zeros &= (a[idx] == 0);
+    }
+}
+
+//todo: masking with pow64
+
+int polynomial_degree_v2(int const *y, size_t n) {
+    bool all_zeros = true;
+    int result = -1;
+    int **diffs = malloc(n * sizeof(int*));
+    size_t bignum_bits = roundTo64((n+32)/sizeof(int));
+
+    for (size_t i = 0; i < n; i++) {
+        diffs[i] = calloc(bignum_bits, sizeof(int));
+        diffs[i][0] = y[i];
+        all_zeros &= !diffs[i][0];
+    }
+
+    while (n > 0 && !all_zeros) {
+        result++;
+        n--;
+        all_zeros = true;
+        for (size_t i = 0; i < n; i++) {
+            sub(diffs[i], diffs[i + 1], bignum_bits, &all_zeros);
+        }
+    }
+
+    for (size_t i = 0; i < n; i++) {
+        free(diffs[i]);
+    }
+    free(diffs);
+    return result;
+}
