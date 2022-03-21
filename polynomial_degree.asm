@@ -8,14 +8,51 @@ extern printf
 ; performs subtraction of two bignums and stores the result in the first one
 sub_bignums:
         mov     cl, 0x1                                 ; `all_zeros = true`
-.outer_loop:
         xor     r8, r8                                  ; `i = 0`
-        xor     r9, r9                                  ; `bool carry = true`
+        xor     r9b, r9b                                ; `bool carry = false`, this also clears CF
+.outer_loop:
+        setc    r11b
+        jz      .no_carry1
+        sub     DWORD [rdi+r8*8], 0x1                   ; `if(FC) a[i]--`
+.no_carry1:
+        setc    r11b
+        mov     r10, QWORD [rdi+r8*8]
+        sub     r10, [rsi+r8*8]
+        mov     [rdi+r8*8], r10                         ; `a[i] -= b[i]`
+        setc    r11b
+        jz      .no_carry2
+        mov     r9b, 0x1                                ; `if(FC) carry = true`
+.no_carry2:
+        and     r11b, r9b                               ; R11B := `carry && FC`
+        test    r11b, r11b
+        jz      .update_all_zeros                       ; don't enter the inner_loop if false
 
+        push    r8
+        inc     r8                                      ; `size_t j = i+1`
+.inner_loop:
+        dec     QWORD [rdi+r8*8]                        ; `a[j]--`
+  ; check inner_loop condition
+        inc     r8                                      ; `j++`
+        setc    r10b
+        and     r10b, r9b
+        cmp     r8, rdx
+        sets    r11b
+        and     r10b, r11b                              ; `(j < bignum_len && carry && FC)?`
+        jb      .inner_loop                             ; loop again if yes
+        pop     r8
 
+.update_all_zeros:
+        mov     r10, [rdi+r8*8]
+        test    r10, r10
+        setz    r11b
+        and     cl, r11b                                ; `all_zeros &= (a[i] == 0)`
+
+; check outer_loop condition
         inc     r8                                      ; `i++`
         cmp     r8, rdx                                 ; `(i < bignum_len)?`
         jb      .outer_loop                             ; loop again if yes
+
+
 
 
 ; TODO: tu chyba jeszcze powinienem wyrównać RSP do 16tki
@@ -36,15 +73,14 @@ polynomial_degree:
         call    malloc wrt ..plt                        ; call malloc with prepared size
         test    rax, rax                                ; check malloc's result
         pop     rdi                                     ; regain value of `y`
-        jz      exit_fail
+        jz      .exit_fail
         mov     r9, rax                                 ; assign malloc's result to `diffs`
         pop     rdi                                     ; regain value of `y`
-; `bignum_len` is `n+32` rounded up to nearest multiple of 32 and then divided by `32`
+; `bignum_len` is `n+32` rounded up to nearest multiple of 32 and then divided by `sizeof(int)`
         mov     r10, rsi
-        add     r10, 0x1000
-        add     r10, 0x011111
-        and     r10, 0xFFFF1000
-        shl     r10, 0x3
+        add     r10, 0x1                  ; +32-31
+        and     r10, 0xFFFFFFFFFFFFFFE0   ; &(-32)
+        shl     r10, 0x5                  ; /32
 
         xor      r8, r8                                 ; `i = 0`
         mov      dl, 0x1                                ; `all_zeros = true`
@@ -52,10 +88,10 @@ polynomial_degree:
 ; convert values of `y` into bignums of `diffs`, check if they're all zeros
 .loop_alloc_bignums:    ;TODO: czy tu dobrze adresuję?
   ; allocate space for `i`-th bignum
-    ; save values of modifiable registers
+    ; save values of scratch registers
         push    rdi
         push    rsi
-        push    dl
+        push    rdx
         push    r8
         push    r9
         push    r10
@@ -65,16 +101,19 @@ polynomial_degree:
         pop     r10
         pop     r9
         pop     r8
-        pop     dl
+        pop     rdx
         pop     rsi
         pop     rdi
         test    rax, rax                                ; check calloc's result
-        jz      exit_fail
+        jz      .exit_fail
         mov     [r10+r8*8], rax                         ; assign calloc's result to `diffs[i]`
   ; initialize bignum with its first 4 bytes
-        mov     [r11], [rdi+r8*4]                       ; `diffs[i][0] = y[i];`
+        mov     r11, [rdi+r8*4]                         ; `diffs[i][0] = y[i]`
   ; check if `y[i] == 0`
-        test    [rdi+r8*4], [rdi+r8*4]                  ; (y[i] != 0)?
+        push    r10
+        mov     r10, [rdi+r8*4]
+        test    r10, r10                                ; (y[i] != 0)?
+        pop     r10
         setz    r11b
         and     dl, r11b                                ; `all_zeros &= `diffs[i] != 0`
 ; check loop condition
@@ -97,14 +136,16 @@ polynomial_degree:
         push    rcx
         push    r8
         push    r9
+        push    r10
 
         mov     rdi, [r9+r8*8]                          ; RDI := `diffs[i]`
         mov     rsi, [r9+r8*8+8]                        ; RSI := `diffs[i+1]`
         mov     cl, dl                                  ; CL := `all_zeros`
         mov     rdx, r10                                ; RDX := `bignum_len`
         call    sub_bignums                             ; `sub_bignums(diffs[i], diffs[i+1], bignum_len, all_zeros)`
-        mov     dl, cl                                  ; this may have gotten updated in sub_bignums
+        mov     dl, cl                                  ; `all_zeros` may have gotten updated in sub_bignums
 
+        pop     r10
         pop     r9
         pop     r8
         pop     rcx
@@ -118,24 +159,24 @@ polynomial_degree:
         jb      .loop_alloc_bignums                     ; loop again if yes
   ; end of loop_sub_all
 ; check loop_incr_res condition
-       push     r12b
-       push     r13b
+       push     r12
+       push     r13
        test     dl, dl
        setz     r12b                                    ; R12B := `!all_zeros`
        test     rsi, rsi
        setnz    r13b                                    ; R13B := `n > 0`
        and      r13b, r12b
-       test     r13b
-       pop      r13b
-       pop      r12b
+       test     r13b, r13b
+       pop      r13
+       pop      r12
        jnz      .loop_incr_res                          ; loop again if `!all_zeros && n > 0`
 ; end of loop_incr_res
 
 .return:
         mov     rdi, r10
-        push    ecx
+        push    rcx
         call    free wrt ..plt                          ; `free(diffs)`
-        pop     ecx                                     ; save value of `result`
+        pop     rcx                                     ; save value of `result`
         mov     eax, ecx                                ; EAX := `result`
         pop     rsi                                     ; regain original value of `n`
         ret                                             ; return with EAX
