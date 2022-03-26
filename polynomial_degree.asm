@@ -1,28 +1,3 @@
-extern printf
-section .bss
-        m   equ 0xFFFFFFFF
-        
-        exp equ 0
-        n   equ 981   
-section .data
-        y   dd -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
-        fmt db "Got %d, expected %d", 10, 0
-        elm db "%d ", 0
-        endl db "", 10, 0
-section .text
-global main
-main:
-        mov rbp, rsp; for correct debugging
-        sub     rsp, 0x8
-        mov     rdi, y
-        mov     rsi, n
-        call    polynomial_degree
-        mov     rdi, fmt
-        mov     rsi, rax
-        mov     rdx, exp
-        call    printf
-        ret
-
 ; further in this file, "bignum" will refer to the representation of an integer as an (int32_t) array
 global polynomial_degree
 extern malloc
@@ -32,6 +7,28 @@ extern free
 SYS_EXIT        equ 0x1
 EXIT_FAIL       equ 0x1
 
+; pair of macros used to preserve the state of scratch registers before calling an external function
+; note: not in every call each of these registers has to be preserved (some are not used yet/anymore), but this does make the code cleaner
+%macro push_regs 0          
+        push    rdi
+        push    rsi
+        push    rdx
+        push    rcx
+        push    r8
+        push    r9
+        push    r10
+%endmacro
+
+%macro pop_regs 0
+        pop     r10
+        pop     r9
+        pop     r8
+        pop     rcx
+        pop     rdx
+        pop     rsi
+        pop     rdi
+%endmacro
+
 polynomial_degree:
         sub     rsp, 0x8                                ; stack offset to 16 bytes
 ; legend to variables:
@@ -40,7 +37,7 @@ polynomial_degree:
 ; - EDX - `int arr_alt = 0` - bit-alternative of every element in an array - used to check whether all numbers in an array are 0
 ; - RCX - `int result = -1` - result of the function
 ; - R9  - `int_32t *bnums`  - dynamically allocated array ([n][bnum_len]) of bigints (actually one contiguous block)
-; - R10 - `size_t bnum_len` - bigint length - k/sizeof(int) such that $min_{k\inN}: k*32 >= n+32$ ;TODO: dobrze?
+; - R10 - `size_t bnum_len` - bigint length equal to k/sizeof(int32_t) such that $min_{k\inN}: k*32 >= n+32$
         mov     r10, rsi
         add     r10, 0x3F                 ; +32+31
         and     r10, 0xFFFFFFFFFFFFFFE0   ; &(-31)
@@ -48,31 +45,18 @@ polynomial_degree:
 ; allocate dynamic array `bnums` with malloc:
         push    rdi                                     ; save value of both input args
         push    rsi
-
-        push    rdi
-        push    rsi
-        push    rdx
-        push    rcx
-        push    r8
-        push    r9
-        push    r10
-        
+	push_regs
         mov     rax, rsi
         mul     r10
+        jc      .exit_fail                              ; overflow - don't allocate
         shl     rax, 0x2                                ; RAX := `n * bnum_len * sizeof(int)`
+        jc      .exit_fail                              ; overflow - don't allocate
         mov     rdi, rax
         call    calloc wrt ..plt                        ; call calloc with prepared size
-        pop     r10
-        pop     r9
-        pop     r8
-        pop     rcx
-        pop     rdx
-        pop     rsi
-        pop     rdi
+        pop_regs
         test    rax, rax                                ; check calloc's result
         jz      .exit_fail
         mov     r9, rax                                 ; assign calloc's result to `bnums`
-; `bnum_len` is `n+32` rounded up to nearest multiple of 32 and then divided by 4 bytes (for each int_32 cell)
 
         xor     r8, r8                                 ; `i = 0`
         xor     edx, edx                               ; `array_alt = 0`
@@ -86,19 +70,14 @@ polynomial_degree:
         mov     r11d, DWORD[rdi+r8*4]                   ; R11D :=`y[i]`
         mov     [r9+rax], r11d                          ; `bnums[i][0] = y[i]`
         or      edx, r11d
+        test    r11d, r11d
         jns     .after_ext                              ; non-negative bignums are already sgn-exted due to calloc
 
         push    r8
         mov     r8, 0x1                                 ; `size_t j = 1`
-.loop_sign_ext: ; `for(j=1..bignum_len-1){...}` - "sign-extends" a bignum with 1s; TODO: we popraw jak niżej
-        lea     r11, [r9+rax]
-        mov     rax, r8                                    
-        shl     rax, 0x2  
-        push    rdx                                     ; 1-arg mul modifies rdx, have to save it
-        mul     r8                                      ; RAX := `j * sizeof(int)`
-        pop     rdx
-        add     r11, rax                                ; R11 := `bnums[i] + j*sizeof(int) == bnums[i][j]`     
-        mov     DWORD[r11], 0xFFFFFFFF                  ; `bnums[i][j] = -1`
+        lea     r11, [r9+rax]                           ; R11:= `bnums[i]`
+.loop_sign_ext: ; `for(j=1..bignum_len-1){...}` - "sign-extends" a bignum with 1s
+        mov     DWORD[r11+r8*4], 0xFFFFFFFF             ; `bnums[i][j] = -1`
         inc     r8
         cmp     r8, r10                                 ; `(j < bnum_len)?`
         jb      .loop_sign_ext                          ; loop again if yes
@@ -123,7 +102,7 @@ polynomial_degree:
         test    rsi, rsi
         jz     .return                                  ; nothing left to compute, early return (case when n reaches 0)
 .loop_all_sub: ; `for(i=0..n-1){...}` - inner loop of loop_main - performs all `n` subtractions
-        mov     rax, r10                                    
+        mov     rax, r10
         shl     rax, 0x2                                ; RAX := `bnum_len * sizeof(int)`
         mov     rdi, rax                                ; RDI won't used anymore, can use it as a scratch reg
         push    rdx                                     ; 1-arg mul modifies rdx, have to save it
@@ -167,23 +146,10 @@ polynomial_degree:
 
 .return:
         pop     r12
-
-        push    rdi
-        push    rsi
-        push    rdx
-        push    rcx
-        push    r8
-        push    r9
-        push    r10
+        push_regs
         mov     rdi, r9
         call    free wrt ..plt                          ; `free(bnums)`
-        pop     r10
-        pop     r9
-        pop     r8
-        pop     rcx
-        pop     rdx
-        pop     rsi
-        pop     rdi
+        pop_regs
 ; actual return
         mov     eax, ecx                                ; EAX := `result`
         pop     rsi
