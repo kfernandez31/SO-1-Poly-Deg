@@ -2,10 +2,9 @@
 https://gitlab.com/mimuw-rocznik-2001/so-2022/testy-zad1
 
 ## Testy oficjalne
-https://github.com/kfernandez31/SO-1-PolyDeg/blob/master/test.c
+https://github.com/kfernandez31/SO-1-PolyDeg/tree/master/src/tests
 
 ## Opis wyników
-
 Jest 15 testów. Dane testowe umieszczone są na końcu tego pliku.
 Za każdy test zakończony poprawnym wynikiem otrzymuje się 1/3 punktu.
 Od tego wyniku odejmowane są następujące kary:
