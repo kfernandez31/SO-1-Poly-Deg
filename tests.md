@@ -1,3 +1,9 @@
+## Testy rocznikowe
+https://gitlab.com/mimuw-rocznik-2001/so-2022/testy-zad1
+
+## Testy oficjalne
+https://github.com/kfernandez31/SO-1-PolyDeg/blob/master/test.c
+
 ## Opis wyników
 
 Jest 15 testów. Dane testowe umieszczone są na końcu tego pliku.
@@ -31,8 +37,3 @@ Napis non-const oznacza, że zmodyfikowano tablicę y.
 Na koniec wypisane są rozmiary kodu i danych globalnych.
 
 Ocena jest zaokrąglana w dół do 0,1 punktu, ale nie jest ujemna.
-
-## Testy rocznikowe
-https://gitlab.com/mimuw-rocznik-2001/so-2022/testy-zad1
-
-## Testy oficjalne
