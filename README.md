@@ -4,7 +4,7 @@ What you see is a repository of my solution for task no. 1. of the [Operating Sy
 
 # Brief description
 
-The task was to TODO
+The task was to find the minimal degree of a polynomial based on a list of its values. The limiatation, and essentially the key problem in it was dealing with type bounds, as [the algorithm's](https://www.youtube.com/watch?v=CRUH6Jm8OTU) partial results quite easily overflowed even 64 bits.
 
 # Full description 
 
